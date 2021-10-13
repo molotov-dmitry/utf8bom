@@ -8,16 +8,16 @@ do
         then
             echo "Unchanged ${file}"
         else
-            sed -i '1s/^/\xef\xbb\xbf/' "${file}" || return $?
+            sed -i '1s/^/\xef\xbb\xbf/' "${file}" || exit $?
             echo "Added UTF-8 BOM to ${file}"
         fi
     elif test -w $file
     then
-        echo -en "\xef\xbb\xbf" > "${file}" || return $?
+        echo -en "\xef\xbb\xbf" > "${file}" || exit $?
         echo "Added UTF-8 BOM to ${file}"
     else
-        file "${file}" || return $?
-        return 1
+        file "${file}" || exit $?
+        exit 1
     fi
 done
 
